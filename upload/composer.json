@@ -1,0 +1,10 @@
+{
+    "name": "cyber-duck/your-project",
+    "description": "My Project Name",
+    "require": {
+        "php": ">=5.2.0",
+        "raven/raven": "dev-master",
+        "filp/whoops": "~1.0"
+    },
+    "minimum-stability": "dev"
+}

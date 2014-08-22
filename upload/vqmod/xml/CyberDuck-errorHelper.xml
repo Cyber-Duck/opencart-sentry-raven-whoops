@@ -1,0 +1,34 @@
+<modification>
+        <id>Add error helper</id>
+        <version>1.0</version>
+        <vqmver>1.0.8</vqmver>
+        <author>Ben Speakman</author>
+        <file name="system/startup.php">
+                <operation>
+                        <search position="after"><![CDATA[
+                        require_once(DIR_SYSTEM . 'library/template.php');
+                        ]]></search>
+                        <add><![CDATA[
+                        require DIR_SYSTEM . '../vendor/autoload.php';
+                        
+                        if (ENVIROMENT == 'LIVE') {
+
+                                $client = new Raven_Client('http://public:secret@example.com/1');
+                                $error_handler = new Raven_ErrorHandler($client);
+                                $error_handler->registerExceptionHandler();
+                                $error_handler->registerErrorHandler();
+                                $error_handler->registerShutdownFunction();
+
+                                require_once(DIR_SYSTEM . 'helper/error.php');
+
+                        } else {
+
+                                $whoops = new \Whoops\Run;
+                                $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+                                $whoops->register();
+
+                        }
+                        ]]></add>
+                </operation>
+        </file>
+</modification>
